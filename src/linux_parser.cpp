@@ -113,6 +113,7 @@ long LinuxParser::ActiveJiffies() { return 0; }
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { return 0; }
 
+
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() {
   string line = TagFilter("/proc/stat").Filter("cpu");
@@ -197,4 +198,26 @@ long LinuxParser::UpTime(int pid) {
   long start_time = std::stoi(tokens[21]) / sysconf(_SC_CLK_TCK);
   long uptime_process = LinuxParser::UpTime() - start_time;
   return uptime_process; 
+}
+
+
+float LinuxParser::CpuUtilization(int pid) { 
+  std::ifstream file ("/proc/" + std::to_string(pid) + "/stat");
+  if (!file) {
+    throw std::runtime_error("process not found");
+  }
+    
+  string line;
+  std::getline(file, line);
+  auto tokens = Helper::Tokenize(line);
+  float utime 		= std::stof(tokens[13]);
+  float stime 		= std::stof(tokens[14]);
+  float cutime 		= std::stof(tokens[15]);
+  float cstime 		= std::stof(tokens[16]);
+  float start_time  = std::stof(tokens[21]);
+
+  float cpu_time_sec 	= (utime + stime + cutime + cstime) / sysconf(_SC_CLK_TCK);
+  float start_time_sec 	= start_time / sysconf(_SC_CLK_TCK);
+
+  return cpu_time_sec / (LinuxParser::UpTime() - start_time_sec);
 }

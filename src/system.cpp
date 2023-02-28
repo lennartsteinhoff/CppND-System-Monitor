@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "linux_parser.h"
 #include "process.h"
@@ -30,7 +31,7 @@ Processor& System::Cpu() { return cpu_; }
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() { 
     auto process_ids = LinuxParser::Pids();
-    processes_.clear();
+    processes_ = {};
 
     for(const int pid : process_ids) {
       
@@ -38,6 +39,7 @@ vector<Process>& System::Processes() {
             processes_.push_back(Process(pid));
         }
     }
+
   	std::sort(processes_.begin(), processes_.end(), std::greater<Process>());
     return processes_; 
 
