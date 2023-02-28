@@ -53,5 +53,6 @@ bool Process::operator<(Process const& a) const {
   return CpuUtilization() < a.CpuUtilization() ;
 }
 bool Process::operator>(Process const& a) const {
-  return !(*this < a) ;
+  return CpuUtilization() > a.CpuUtilization() ;
+  //return !(*this < a) ;
 }
