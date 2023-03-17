@@ -36,7 +36,7 @@ vector<Process>& System::Processes() {
     for(const int pid : process_ids) {
       
         if(!LinuxParser::Command(pid).empty()) {
-            processes_.push_back(Process(pid));
+            processes_.emplace_back(pid);
         }
     }
 
