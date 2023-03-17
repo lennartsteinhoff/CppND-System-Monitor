@@ -101,18 +101,6 @@ long LinuxParser::UpTime() {
   return std::stoi(uptime_sec);
 }
 
-// TODO: Read and return the number of jiffies for the system
-long LinuxParser::Jiffies() { return 0; }
-
-// TODO: Read and return the number of active jiffies for a PID
-// REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid) { return pid; }
-
-// TODO: Read and return the number of active jiffies for the system
-long LinuxParser::ActiveJiffies() { return 0; }
-
-// TODO: Read and return the number of idle jiffies for the system
-long LinuxParser::IdleJiffies() { return 0; }
 
 
 // TODO: Read and return CPU utilization
