@@ -77,10 +77,11 @@ vector<int> LinuxParser::Pids() {
 
 // TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { 
-  auto total = float(std::stoi(Helper::GetTokenFromFile("/proc/meminfo", "MemTotal")[0]));
-  auto free = float(std::stoi(Helper::GetTokenFromFile("/proc/meminfo", "MemFree")[0]));
+  auto total = float(std::stoi(Helper::GetTokenFromFile("/proc/meminfo", filterMemTotalString)[0]));
+  auto free = float(std::stoi(Helper::GetTokenFromFile("/proc/meminfo", filterMemFreeString)[0]));
   return 1 - free/total;
 }
+
 
 // TODO: Read and return the system uptime
 long LinuxParser::UpTime() {
@@ -134,14 +135,15 @@ vector<string> LinuxParser::CpuUtilization() {
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() {
-  string line = TagFilter("/proc/stat").Filter("processes");
+  string line = TagFilter("/proc/stat").Filter(filterProcesses);
   line = std::regex_replace(line, std::regex(R"([\D])"), "");
   return stoi(line);
 }
 
+
 // TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses() {
-  string line = TagFilter("/proc/stat").Filter("procs_running");
+  string line = TagFilter("/proc/stat").Filter(filterRunningProcesses);
   line = std::regex_replace(line, std::regex(R"([\D])"), "");
   return stoi(line);
 }
@@ -179,7 +181,7 @@ string LinuxParser::Uid(int pid) {
   string pid_s = std::to_string(pid);
   string filename("/proc/" + pid_s + "/status");
 
-  string line = Helper::GetLine(filename, "Uid");
+  string line = Helper::GetLine(filename, filterUID);
   auto tokens = Helper::Tokenize(line, '\t');
   return tokens[1]; 
   }
