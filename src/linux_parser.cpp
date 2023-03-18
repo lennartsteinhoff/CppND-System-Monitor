@@ -105,7 +105,7 @@ long LinuxParser::UpTime() {
 
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() {
-  string line = TagFilter("/proc/stat").Filter("cpu");
+  string line = TagFilter("/proc/stat").Filter(filterCpu);
   std::stringstream ss(line);
   string token;
   vector<string> cpu_util;
