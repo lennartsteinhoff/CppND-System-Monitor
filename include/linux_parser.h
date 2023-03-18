@@ -25,6 +25,9 @@ const std::string filterMemFreeString("MemFree:");
 const std::string filterCpu("cpu");
 const std::string filterUID("Uid:");
 const std::string filterProcMem("VmRSS:");
+const std::string filterMemTotal("MemTotal:");
+const std::string filterMemFree("MemFree:");  
+  
 
 // System
 float MemoryUtilization();

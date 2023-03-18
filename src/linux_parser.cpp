@@ -76,10 +76,10 @@ vector<int> LinuxParser::Pids() {
 }
 
 // TODO: Read and return the system memory utilization
-float LinuxParser::MemoryUtilization() { 
-  auto total = float(std::stoi(Helper::GetTokenFromFile("/proc/meminfo", filterMemTotalString)[0]));
-  auto free = float(std::stoi(Helper::GetTokenFromFile("/proc/meminfo", filterMemFreeString)[0]));
-  return 1 - free/total;
+float LinuxParser::MemoryUtilization() {
+  float Total = Helper::findValueByKey<float>(filterMemTotal, kMeminfoFilename);// "/proc/memInfo"
+  float Free = Helper::findValueByKey<float>(filterMemFree, kMeminfoFilename);
+  return (Total - Free) / Total;
 }
 
 
@@ -138,11 +138,8 @@ int LinuxParser::RunningProcesses() {
 
 // TODO: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Command(int pid) { 
-  std::ifstream file ("/proc/" + std::to_string(pid) + "/cmdline");
-  string line;
-  std::getline(file, line);
-  return line; 
+string LinuxParser::Command(int pid) {
+  return string(Helper::getValueOfFile<string>(to_string(pid) + kCmdlineFilename));
 }
 
 // TODO: Read and return the memory used by a process

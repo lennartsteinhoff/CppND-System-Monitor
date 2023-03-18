@@ -1,12 +1,17 @@
 #include "tag_filter.h"
 #include "helper.h"
+#include "linux_parser.h"
 
 #include <string>
 #include <vector>
 #include <sstream>
+#include <istream>
 
 using std::string;
 using std::vector;
+
+using namespace LinuxParser;
+
 
 vector<string> Helper::GetTokenFromFile(string filename, string tag) {
     string line = TagFilter(filename).Filter(tag);
